@@ -17,6 +17,7 @@ dependencies:
   google_fonts: ^6.2.1
   shared_preferences: ^2.3.5
   just_audio: ^0.9.43
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
@@ -30,3 +31,10 @@ flutter:
 
   assets:
     - assets/
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.png"
+
+

@@ -8,6 +8,7 @@ import 'package:just_audio/just_audio.dart';
 
 import '../models/ayah_model.dart';
 import '../models/surah_model.dart';
+import 'listen_page.dart';
 
 class SurahPage extends StatefulWidget {
   final SurahModel surah;
@@ -59,11 +60,29 @@ class _SurahPageState extends State<SurahPage> {
         title: Text(
           widget.surah.transliteration,
           style: GoogleFonts.poppins(
-            color: Color(0xff672CBC),
-            fontWeight: FontWeight.w700,
-          ),
+              color: Color(0xff672CBC), fontWeight: FontWeight.w700),
         ),
         centerTitle: false,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) {
+                    return ListenPage(surah: widget.surah);
+                  },
+                ),
+              );
+            },
+            icon: Image.asset(
+              "assets/play.png",
+              color: Color(0xff863ED5),
+              height: 25,
+            ),
+          ),
+          SizedBox(width: 10),
+        ],
       ),
       body: SafeArea(
         child: ListView(
