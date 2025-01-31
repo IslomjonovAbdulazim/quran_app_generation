@@ -22,6 +22,7 @@ class SurahPage extends StatefulWidget {
 class _SurahPageState extends State<SurahPage> {
   List<AyahModel> ayahs = [];
   AudioPlayer player = AudioPlayer();
+  int? lastPlaying;
 
   @override
   void initState() {
@@ -37,11 +38,26 @@ class _SurahPageState extends State<SurahPage> {
   }
 
   Future<void> playAudio(AyahModel ayah) async {
+    if (lastPlaying != ayah.id) {
+      lastPlaying = ayah.id;
+      setState(() {});
+      await setUp(ayah);
+    } else if (player.playing) {
+      player.pause();
+    } else {
+      player.play();
+    }
+    lastPlaying = ayah.id;
+    setState(() {});
+  }
+
+  Future<void> setUp(AyahModel ayah) async {
     String surahNumber = "${widget.surah.id}".padLeft(3, "0");
     String ayahNumber = "${ayah.id}".padLeft(3, "0");
     await player.setUrl(
-        "https://everyayah.com/data/Alafasy_128kbps/$surahNumber$ayahNumber.mp3");
-    await player.play();
+        "https://everyayah.com/data/MaherAlMuaiqly128kbps/$surahNumber$ayahNumber.mp3");
+    player.play();
+    setState(() {});
   }
 
   @override
@@ -196,7 +212,9 @@ class _SurahPageState extends State<SurahPage> {
                               playAudio(ayah);
                             },
                             child: Image.asset(
-                              "assets/play.png",
+                              player.playing && ayah.id == lastPlaying
+                                  ? "assets/pause.png"
+                                  : "assets/play.png",
                               color: Color(0xff863ED5),
                               height: 20,
                               width: 20,
